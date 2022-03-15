@@ -12,7 +12,7 @@ func generateEvenNumber[T any]() goptional.Option[int] {
 	if num%2 == 0 {
 		return goptional.New(num, nil)
 	} else {
-		return goptional.New(num, errors.New("Not even number."))
+		return goptional.New(num, errors.New("Not an even number."))
 	}
 }
 
