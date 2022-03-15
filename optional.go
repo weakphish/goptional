@@ -6,6 +6,9 @@ type Option[T any] struct {
 	none   error
 }
 
+// Return a new Option type, filled with the value and an optional error. If an error is provided,
+// the value is erased and only the error will be visible. Because of this, you can provide any
+// dummy value for T if the Option will be an error.
 func New[T any](val T, err error) Option[T] {
 	var o Option[T]
 	if err != nil {
@@ -21,6 +24,8 @@ func New[T any](val T, err error) Option[T] {
 	return o
 }
 
+// Unwrap the option - if the option has an error, it will be consumed and passed into a `panic`
+// call. Otherwise, a value of type T will be returned.
 func (o *Option[T]) Unwrap() T {
 	if !o.exists {
 		panic(o.none)
