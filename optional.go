@@ -33,3 +33,24 @@ func (o *Option[T]) Unwrap() T {
 		return o.some
 	}
 }
+
+// Returns a provided default value if there is no Some.
+func (o *Option[T]) UnwrapOr(def T) T {
+	if !o.exists {
+		return def
+	} else {
+		return o.some
+	}
+}
+
+// Unwraps the option, but instead of panicking if there is nothing to be done, computes a provided
+// function should it fail. A failing unwrap will still return a value as a side-effect of Go,
+// but this value should be discarded.
+func (o *Option[T]) UnwrapOrElse(f func()) T {
+	if !o.exists {
+		f()
+		return o.some // Side effect of Go. This value should be discarded.
+	} else {
+		return o.some
+	}
+}
