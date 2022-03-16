@@ -44,12 +44,11 @@ func (o *Option[T]) UnwrapOr(def T) T {
 }
 
 // Unwraps the option, but instead of panicking if there is nothing to be done, computes a provided
-// function should it fail. A failing unwrap will still return a value as a side-effect of Go,
-// but this value should be discarded.
-func (o *Option[T]) UnwrapOrElse(f func()) T {
+// function should it fail and returns the result of it.
+func (o *Option[T]) UnwrapOrElse(f func() T) T {
 	if !o.exists {
-		f()
-		return o.some // Side effect of Go. This value should be discarded.
+		val := f()
+		return val
 	} else {
 		return o.some
 	}
