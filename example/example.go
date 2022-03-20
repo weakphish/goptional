@@ -2,22 +2,22 @@ package main
 
 import (
 	"errors"
-	"math/rand"
 
 	"github.com/weakphish/goptional"
 )
 
-func generateEvenNumber[T any]() goptional.Option[int] {
-	num := rand.Intn(100)
-	if num%2 == 0 {
-		return goptional.New(num, nil)
+func divide[T any](numerator, denominator int) *goptional.Option[int] {
+	if denominator == 0 {
+		return goptional.None[int](errors.New("Cannot divide by zero"))
 	} else {
-		return goptional.New(num, errors.New("Not an even number."))
+		return goptional.Some(numerator / denominator)
 	}
 }
 
 func main() {
-	o := generateEvenNumber[int]()
-	val := o.Unwrap()
-	println(val)
+	s := divide[int](6, 3).Unwrap()
+	println(s)
+
+	n := divide[int](6, 0).Unwrap()
+	println(n)
 }
